@@ -1,0 +1,14 @@
+{
+    "validUser" : {
+
+
+        "name" : "Pepe",
+        "lastName": "Pepe",
+        "email": "pepe@validemail.com",
+        "password": "pepe"
+    }
+
+
+
+
+}

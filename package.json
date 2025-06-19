@@ -1,0 +1,22 @@
+{
+  "name": "playwright-bank",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcomarco2018/playwright-bank.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcomarco2018/playwright-bank/issues"
+  },
+  "homepage": "https://github.com/marcomarco2018/playwright-bank#readme",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.53.0",
+    "@types/node": "^24.0.1"
+  }
+}
