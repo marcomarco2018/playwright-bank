@@ -27,3 +27,22 @@ test('TC-1 Vefify successful login using valid credentials', async ({page}) => {
         await expect(dashboardPage.dashboardTitle).toBeVisible();
     
 })
+
+test('TC-2 Verify User is redirected to the registration page when clicking on the register link', async ({page}) => {
+
+     await loginPage.clickRegisterLink();
+    await expect(page).toHaveURL('http://localhost:3000/signup'); 
+
+})
+
+test('TC-3 Verify Create Account button is visible on the login page', async ({page}) => {
+
+    await expect(loginPage.createAccountButton).toBeVisible();
+    
+})
+
+test('TC-4 Verify clicking on Create Account button redirects to the registration page', async ({page}) => {
+    await loginPage.clickCreateAccountButton();
+    await expect(page).toHaveURL('http://localhost:3000/signup'); 
+
+}) 

@@ -5,6 +5,8 @@ export class LoginPage {
     readonly emailInput: Locator;
     readonly passwordInput: Locator;
     readonly loginButton: Locator;
+    readonly registerLink: Locator;
+    readonly createAccountButton: Locator;
 
 
 
@@ -13,6 +15,8 @@ export class LoginPage {
         this.emailInput = page.locator('input[name="email"]');
         this.passwordInput = page.locator('input[name="password"]');
         this.loginButton = page.getByTestId('boton-login');
+        this.registerLink = page.getByTestId('link-registrarse-login');
+        this.createAccountButton = page.getByTestId('boton-signup-header');
         
     }
 
@@ -40,6 +44,15 @@ export class LoginPage {
     }
 
     //ASK IF IT IS OK TO HAVE A METHOD FOR INVALID CREDENTIALS. 
+
+    async clickRegisterLink(): Promise<void> {
+        await this.registerLink.click();
+
+    }
+
+    async clickCreateAccountButton(): Promise<void> {
+        await this.createAccountButton.click();
+    }
 
 
 

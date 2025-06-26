@@ -49,5 +49,7 @@ export class RegisterPage {
         await this.clickRegisterButton();
     }
 
+    
+
 
 }
