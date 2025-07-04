@@ -1,22 +1,22 @@
 import { Locator, Page } from "@playwright/test";
 
 
-export class CreateAccountModal {
+export class SendTransferModal {
 
     readonly page: Page;
-    readonly AccountTypeComboBox: Locator;
-    //readonly AccountTypeOption: Locator;
-    readonly InitialAmountInput:Locator;
-    readonly CreateAccountButton:Locator;
-    readonly CancelAccountCreationButton:Locator;
+    readonly receiverEmailInput: Locator;
+    readonly sourceAccountComboBox: Locator;
+    readonly amountToTransferInput: Locator;
+    readonly sendButton: Locator;
+
 
     constructor(page: Page){
 
         this.page = page;
-        this.AccountTypeComboBox = page.getByRole('combobox', {name: 'Tipo de Cuenta *'});
-        this.InitialAmountInput = page.getByRole('spinbutton', {name: 'Monto Inicial *'});
-        this.CreateAccountButton = page.getByTestId('boton-crear-cuenta');
-        this.CancelAccountCreationButton = page.getByTestId('boton-cancelar-crear-cuenta');
+        this.receiverEmailInput = page.getByRole('textbox', {name: 'Email del destinatario *'});
+        this.sourceAccountComboBox = page.getByRole('combobox', { name: 'Cuenta origen *' });
+        this.amountToTransferInput = page.getByRole('spinbutton', { name: 'Monto a enviar *' });
+        this.sendButton = page.getByTestId('boton-enviar');
     }
 
 
