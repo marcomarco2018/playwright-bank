@@ -6,6 +6,7 @@ export class SendTransferModal {
     readonly page: Page;
     readonly receiverEmailInput: Locator;
     readonly sourceAccountComboBox: Locator;
+    readonly sourceAccountOption: Locator;
     readonly amountToTransferInput: Locator;
     readonly CancelButton: Locator;
     readonly sendButton: Locator;
@@ -19,6 +20,15 @@ export class SendTransferModal {
         this.amountToTransferInput = page.getByRole('spinbutton', { name: 'Monto a enviar *' });
         this.CancelButton = page.getByRole('button', { name: 'Cancelar' });
         this.sendButton = page.getByRole('button', { name: 'Enviar' });
+        this.sourceAccountOption = page.getByRole('option', { name: '••••' });
+    }
+
+    async sendTransfer(ReceiverEmail: string,amount: string){
+        await this.receiverEmailInput.fill(ReceiverEmail);
+        await this.sourceAccountComboBox.click();
+        await this.sourceAccountOption.first().click();
+        await this.amountToTransferInput.fill(amount);
+        await this.sendButton.click();
     }
 
 

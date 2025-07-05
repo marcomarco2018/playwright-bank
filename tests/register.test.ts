@@ -53,7 +53,7 @@ test('TC-5 Verify error message for existing email', async ({ page }) => {
     await registerPage.visitRegisterPage();
     await registerPage.submitRegisterForm(Testdata.validUser);
     await expect(page.getByText('Email already in use')).toBeVisible();
-    await expect(page.getByText('Registro exitoso')).toBeVisible();
+   // await expect(page.getByText('Registro exitoso')).toBeVisible();
 
 
 });

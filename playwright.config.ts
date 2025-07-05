@@ -32,7 +32,7 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://localhost:3000',
 
-    viewport: null, launchOptions: { slowMo: 3000, args: ['--start-maximized'] } ,
+    viewport: null, launchOptions: { slowMo: 1000, args: ['--start-maximized'] } ,
     headless: false, // Set to false to see the browser in action, can be set to true for CI runs
 
    
@@ -55,12 +55,12 @@ export default defineConfig({
     },
     {
       name: 'chromium',
+      
       use: { 
        // launchOptions: { slowMo: 3000, args: ['--start-minimized']}, // Slow down the browser for better visibility, can be removed later
         ...devices['Desktop Chrome'],
-        
-        
       },
+      dependencies: ['setup'],
     },
 
     // {
