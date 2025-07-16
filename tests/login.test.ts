@@ -75,3 +75,30 @@ test('TC5 Log in with new user created via backend', async ({page, request}) => 
     
    )
 })
+
+test('TC-6 Should display an error if the email input is not entered', async ({page}) => {
+
+    await loginPage.passwordInput.fill('123456');
+
+    // we ignore the email input
+
+    // we try to send the form 
+    await loginPage.clickLoginButton();
+    await expect(loginPage.emailInput).toBeEmpty();
+    await expect(loginPage.emailInput).toHaveJSProperty('validationMessage', 'Please fill out this field.');
+
+})
+test('TC-7 Evaluate wrong email format message', async ({page}) => {
+
+    
+
+    await loginPage.emailInput.fill('invalid-email-format');
+
+    await loginPage.clickLoginButton;
+
+    const message = await loginPage.emailInput.evaluate((input) => (input as HTMLInputElement).validationMessage);
+    
+    expect(message).toContain("Please include an '@' in the email address");
+    
+
+})
