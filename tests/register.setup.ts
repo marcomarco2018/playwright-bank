@@ -4,6 +4,8 @@ import { LoginPage } from "../pages/loginPage";
 import { DashboardPage } from "../pages/DashboardPage";
 import { CreateAccountModal } from "../pages/CreateAccountModal";
 import TestData from "../data/testData.json";
+import fs from 'fs/promises';
+import path from 'path';
 
 let loginPage: LoginPage;
 let dashboardPage: DashboardPage;
@@ -11,6 +13,7 @@ let createAccountModal: CreateAccountModal;
 
 const userSendingAuthFile = 'playwright/.auth/userSending.json';
 const userReceivingAuthFile = 'playwright/.auth/userReceiving.json';
+const userSendingDataFile = 'playwright/.auth/userSending.data.json';
 
 setup.beforeEach(async ({page}) => {
     loginPage = new LoginPage(page);
@@ -27,6 +30,10 @@ setup.beforeEach(async ({page}) => {
 setup('Generate user that sends the money', async ({page, request}) => {
     
     const newUser = await BackendUtils.createNewUserByAPI(request, TestData.validUser );
+
+    // Save the user data to a file for later use
+    await fs.writeFile(path.resolve(__dirname, '..', userSendingDataFile), JSON.stringify(newUser, null, 2));
+
     await loginPage.submitLoginForm(newUser);
     await dashboardPage.clickCreateAccountButton();
     await createAccountModal.selectAccountType('Débito');
@@ -41,7 +48,7 @@ setup('Generate user that sends the money', async ({page, request}) => {
 })
 
 
-setup('Login with user that receives the money', async ({page, request}) => {
+setup('Login with user that receives the money', async ({page}) => {
     
     
     await loginPage.submitLoginForm(TestData.validUser);

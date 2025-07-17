@@ -45,8 +45,8 @@ testUserReceiving('TC-2 Verify successful receivedtransaction', async ({page}) =
     
     await expect(dashboardPage.dashboardTitle).toBeVisible();
     await expect(page.getByText('Transferencia de').first()).toBeVisible();
+});
 
-   
 
-})
+
 
