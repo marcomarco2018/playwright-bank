@@ -60,7 +60,7 @@ export default defineConfig({
        // launchOptions: { slowMo: 3000, args: ['--start-minimized']}, // Slow down the browser for better visibility, can be removed later
         ...devices['Desktop Chrome'],
       },
-      //dependencies: ['setup'],
+      dependencies: ['setup'],
     },
 
     // {
