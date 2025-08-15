@@ -43,7 +43,7 @@ export class LoginPage {
         await this.clickLoginButton();
     }
 
-    //ASK IF IT IS OK TO HAVE A METHOD FOR INVALID CREDENTIALS. 
+    
 
     async clickRegisterLink(): Promise<void> {
         await this.registerLink.click();
