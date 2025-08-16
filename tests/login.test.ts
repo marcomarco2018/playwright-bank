@@ -109,44 +109,38 @@ test('TC-2 Verify User is redirected to the registration page when clicking on t
 
 
 
-
-
-
-
-      
-
-      
-
-// } )
-
-
-
     
-   
+   test('Should display an error if the email input is not entered', async ({page}) => {
+
+
+    await loginPage.passwordInput.fill('123456');
+    await loginPage.clickLoginButton();
+    await expect(loginPage.emailInput).toBeEmpty();
+    await expect(loginPage.emailInput).toHaveJSProperty('validationMessage', 'Please fill out this field.');
+    await page.waitForTimeout(3000); // Wait for 5 seconds to see the error message
+
+   })
 
 test('TC-6 Should display an error if the email input is not entered', async ({page}) => {
 
     await loginPage.passwordInput.fill('123456');
-
-    // we ignore the email input
-
-    // we try to send the form 
     await loginPage.clickLoginButton();
     await expect(loginPage.emailInput).toBeEmpty();
     await expect(loginPage.emailInput).toHaveJSProperty('validationMessage', 'Please fill out this field.');
 
 })
-test('TC-7 Evaluate wrong email format message', async ({page}) => {
+test('Evaluate wrong email format message', async ({page}) => { 
+    await loginPage.emailInput.fill('Invalid-email-format');
+    await loginPage.clickLoginButton();
 
-    
-
-    await loginPage.emailInput.fill('invalid-email-format');
-
-    await loginPage.clickLoginButton;
+    //since some of the validation message is generated dinamically, we can obtain the message evaluating for using JS, and use the HTMLInputElement interfac
+    //  and then use toContain to check partially. 
 
     const message = await loginPage.emailInput.evaluate((input) => (input as HTMLInputElement).validationMessage);
-    
+
     expect(message).toContain("Please include an '@' in the email address");
     
-
+    
 })
+
+

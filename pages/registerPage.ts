@@ -33,6 +33,8 @@ export class RegisterPage {
     }
 
 
+
+
     async completeRegisterForm(user: { firstName: string, lastName: string, email: string, password: string }): Promise<void> {
         await this.firstNameInput.fill(user.firstName);
         await this.lastNameInput.fill(user.lastName);
@@ -43,6 +45,9 @@ export class RegisterPage {
     async clickRegisterButton(): Promise<void> {
         await this.registerButton.click();
     }
+
+   
+
 
     async submitRegisterForm(user: { firstName: string, lastName: string, email: string, password: string }): Promise<void> {
         await this.completeRegisterForm(user);

@@ -1,15 +1,21 @@
 import { test, expect } from "@playwright/test";
 import { RegisterPage } from "../pages/registerPage";
 import Testdata from "../data/testData.json"; // Ensure this path is correct based on your project structure
+import { generateRandomEmail } from "../utils/randomEmail";
+
+
 
 let registerPage: RegisterPage;
 
 //test.use({ viewport: null, launchOptions: { slowMo: 3000, args: ['--start-maximized'] } });
 
+
 test.beforeEach(async ({ page }) => {
     registerPage = new RegisterPage(page);
     await registerPage.visitRegisterPage();
 });
+
+
 
 test('TC-1 Verify visual elements on the registration form', async ({ page }) => {
 
@@ -21,10 +27,14 @@ test('TC-1 Verify visual elements on the registration form', async ({ page }) =>
     
 });
 
-test('TC-2 Verify registratio button is disabled when form is empty', async ({ page }) => {
+
+
+test('TC-2 Verify registration button is disabled when form is empty', async ({ page }) => {
 
     await expect(registerPage.registerButton).toBeDisabled();
 });
+
+
 
 test('TC-3 Verify registration button is enabled when form is filled', async ({ page }) => {
 
@@ -33,30 +43,40 @@ test('TC-3 Verify registration button is enabled when form is filled', async ({ 
 
 });
 
-test('TC-4 Verify successful registration with valid data', async ({page})=>{
 
+test('verify successfull registration with valid data', async ( {page} ) => {
     test.slow(); // Slow down the test for better visibility, can be removed later
 
-// const email = `testuser${Date.now()}@example.com`; // Generate a unique email for each test run
-    const email = Testdata.validUser.email.split('@')[0] + Date.now().toString() + '@' + Testdata.validUser.email.split('@')[1]; // Ensure unique email for each test run 
-    Testdata.validUser.email = email; // Update the email in Testdata
-    await registerPage.submitRegisterForm(Testdata.validUser);
+    // const email = `testuser${Date.now()}@example.com`; // Generate a unique email for each test run
+    const email = generateRandomEmail(Testdata.validUser.email);
+    Testdata.validUser.email = email;
+    await registerPage.submitRegisterForm(Testdata.validUser); 
     await expect(page.getByText('Registro exitoso')).toBeVisible();
+    await expect(page).toHaveURL('http://localhost:3000/login');
+    
+})
 
-});
 
-test('TC-5 Verify error message for existing email', async ({ page }) => {
-   const email = Testdata.validUser.email.split('@')[0] + Date.now().toString() + '@' + Testdata.validUser.email.split('@')[1]; // Ensure unique email for each test run 
-    Testdata.validUser.email = email; // Update the email in Testdata
+
+test('Verify error message for existing email', async ({page }) => {
+
+    const email = generateRandomEmail(Testdata.validUser.email); 
+    Testdata.validUser.email = email;
     await registerPage.submitRegisterForm(Testdata.validUser);
     await expect(page.getByText('Registro exitoso')).toBeVisible();
     await registerPage.visitRegisterPage();
-    await registerPage.submitRegisterForm(Testdata.validUser);
+    await registerPage.submitRegisterForm(Testdata.validUser); 
     await expect(page.getByText('Email already in use')).toBeVisible();
-   // await expect(page.getByText('Registro exitoso')).toBeVisible();
+    await page.waitForTimeout(2000); // Wait for 2 seconds to see the error message clearly
 
 
-});
+//const email = 
+
+
+
+})
+
+
 
 
 test('TC-6 verify successful registration with valid data verifying the response from the server(API)', async ({ page }) => {
