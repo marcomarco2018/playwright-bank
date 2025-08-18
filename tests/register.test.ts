@@ -67,21 +67,32 @@ test('Verify error message for existing email', async ({page }) => {
     await registerPage.visitRegisterPage();
     await registerPage.submitRegisterForm(Testdata.validUser); 
     await expect(page.getByText('Email already in use')).toBeVisible();
-    await page.waitForTimeout(2000); // Wait for 2 seconds to see the error message clearly
-
-
-//const email = 
-
-
-
+    
 })
 
 
+test('Verify registration with valid data and check fro the API response', async({ page}) => {
 
+
+    // here I will use step to be more descriptive about what the test is doing
+    await test.step('Complete the registration form with valida data', async () => {
+
+        const email = generateRandomEmail(Testdata.validUser.email);
+
+        Testdata.validUser.email = email; 
+        await registerPage.completeRegisterForm(Testdata.validUser); 
+    })
+
+    await test.step('Submit the registratin form and wait for the response', async () => {
+
+    })
+    
+})
 
 test('TC-6 verify successful registration with valid data verifying the response from the server(API)', async ({ page }) => {
 
-    test.slow(); // Slow down the test for better visibility, can be removed later
+   let responseBody: any;
+   let response: any;
 
     await test.step('Complete the registration form with valid data', async () => {
         const email = Testdata.validUser.email.split('@')[0] + Date.now().toString() + '@' + Testdata.validUser.email.split('@')[1]; // Ensure unique email for each test run
@@ -90,25 +101,33 @@ test('TC-6 verify successful registration with valid data verifying the response
 
     });
 
-    const responsePromise = page.waitForResponse('**/api/auth/signup'); // Adjust the URL to match your API endpoint
-    await registerPage.registerButton.click(); // Click the register button to trigger the API call
-    const response = await responsePromise;
-    const responseBody = await response.json();
+    await test.step('Submit the register form and intercept the API response', async () => {
 
-    expect(response.status()).toBe(201); // Check if the response status is 201 Created
-    expect(responseBody).toHaveProperty('token'); // Adjust the
-    expect(typeof responseBody.token).toBe('string');
-    expect(responseBody).toHaveProperty('user'); // Check if the user object is present
-    expect(responseBody.user).toEqual(expect.objectContaining({
-        id: expect.any(String), // Assuming the user ID is a string
-        firstName: Testdata.validUser.firstName,
-        lastName: Testdata.validUser.lastName,  
-        email: Testdata.validUser.email
-        // Add other user properties to check as needed
-    }));
+        const responsePromise = page.waitForResponse('**/api/auth/signup');
+        await registerPage.registerButton.click(); 
+        response = await responsePromise;
+        responseBody = await response.json();
+        console.log(responseBody);
+        await expect(page.getByText('Registro exitoso')).toBeVisible();
+        
+       
 
-    await expect(page.getByText('Registro exitoso')).toBeVisible(); // Verify the success message is displayed 
+    })
 
+    await test.step('Verify the response status and body', async () => {
+
+        expect(response.status()).toBe(201); 
+        expect(responseBody).toHaveProperty('token');
+        expect(typeof responseBody.token).toBe('string');
+
+        expect(responseBody.user).toEqual( {
+            id: expect.any(String),
+            firstName: Testdata.validUser.firstName,
+            lastName: Testdata.validUser.lastName,
+            email: Testdata.validUser.email
+        }
+        )
+    })
 });
 
 
